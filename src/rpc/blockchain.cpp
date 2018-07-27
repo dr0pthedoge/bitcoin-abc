@@ -6,7 +6,7 @@
 #include "rpc/blockchain.h"
 
 #include "amount.h"
- #include "base58.h" 
+#include "base58.h" 
 #include "chain.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -19,11 +19,11 @@
 #include "rpc/server.h"
 #include "rpc/tojson.h"
 #include "streams.h"
-#include "sync.h"
 #include "script/script.h"
 #include "script/script_error.h"
 #include "script/sign.h"
 #include "script/standard.h"
+#include "sync.h"
 #include "txmempool.h"
 #include "util.h"
 #include "utilstrencodings.h"
@@ -232,12 +232,6 @@ UniValue blockToDeltasJSON(const CBlock& block, const CBlockIndex* blockindex)
         result.push_back(Pair("nextblockhash", pnext->GetBlockHash().GetHex()));
     return result;
 }
-
-
-
-
-
-
 UniValue getblockcount(const Config &config, const JSONRPCRequest &request) {
     if (request.fHelp || request.params.size() != 0) {
         throw std::runtime_error(
@@ -747,20 +741,6 @@ UniValue getmempoolentry(const Config &config, const JSONRPCRequest &request) {
     entryToJSON(info, e);
     return info;
 }
-
-UniValue getblockhash(const Config &config, const JSONRPCRequest &request) {
-    if (request.fHelp || request.params.size() != 1) {
-        throw std::runtime_error(
-            "getblockhash height\n"
-            "\nReturns hash of block in best-block-chain at height provided.\n"
-            "\nArguments:\n"
-            "1. height         (numeric, required) The height index\n"
-            "\nResult:\n"
-            "\"hash\"         (string) The block hash\n"
-            "\nExamples:\n" +
-            HelpExampleCli("getblockhash", "1000") +
-            HelpExampleRpc("getblockhash", "1000"));
-    }
 UniValue getblockdeltas(const JSONRPCRequest& request)
 {
     if (request.fHelp || request.params.size() != 1)
@@ -839,6 +819,20 @@ UniValue getblockhashes(const JSONRPCRequest& request)
     }
     return result;
 }
+UniValue getblockhash(const Config &config, const JSONRPCRequest &request) {
+    if (request.fHelp || request.params.size() != 1) {
+        throw std::runtime_error(
+            "getblockhash height\n"
+            "\nReturns hash of block in best-block-chain at height provided.\n"
+            "\nArguments:\n"
+            "1. height         (numeric, required) The height index\n"
+            "\nResult:\n"
+            "\"hash\"         (string) The block hash\n"
+            "\nExamples:\n" +
+            HelpExampleCli("getblockhash", "1000") +
+            HelpExampleRpc("getblockhash", "1000"));
+    }
+
     LOCK(cs_main);
 
     int nHeight = request.params[0].get_int();
