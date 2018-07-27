@@ -6,7 +6,6 @@
 #include "rpc/blockchain.h"
 
 #include "amount.h"
-#include "base58.h" 
 #include "chain.h"
 #include "chainparams.h"
 #include "checkpoints.h"
@@ -16,13 +15,14 @@
 #include "hash.h"
 #include "policy/policy.h"
 #include "primitives/transaction.h"
+ #include "base58.h" 
 #include "rpc/server.h"
-#include "rpc/tojson.h"
-#include "streams.h"
 #include "script/script.h"
 #include "script/script_error.h"
 #include "script/sign.h"
 #include "script/standard.h"
+#include "rpc/tojson.h"
+#include "streams.h"
 #include "sync.h"
 #include "txmempool.h"
 #include "util.h"
@@ -819,6 +819,8 @@ UniValue getblockhashes(const JSONRPCRequest& request)
     }
     return result;
 }
+
+
 UniValue getblockhash(const Config &config, const JSONRPCRequest &request) {
     if (request.fHelp || request.params.size() != 1) {
         throw std::runtime_error(
